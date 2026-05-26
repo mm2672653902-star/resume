@@ -35,6 +35,7 @@
             <li class="nav-item"><a href="#education-section">教育经历</a></li>
             <li class="nav-item"><a href="#skills-section">技能</a></li>
             <li class="nav-item"><a href="#portal-section">网站导航</a></li>
+            <li class="nav-item"><a id="nav-pan-link" href="https://pan.maoxijia.top" target="_blank">网盘</a></li>
             <li class="nav-item"><a id="nav-blog-link" href="https://blog.maoxijia.top" target="_blank">博客</a></li>
             <li class="nav-item"><a id="nav-github-link" href="https://github.com/mm2672653902-star" target="_blank">GitHub</a></li>
             <a href="admin/index.html" class="nav-btn-admin">后台管理</a>
@@ -203,18 +204,24 @@
                     </div>
                 </a>
 
-                <!-- Placeholder card 1 -->
-                <div class="portal-card" style="opacity: 0.5; border-style: dashed; cursor: not-allowed; min-height: 190px;">
+                <!-- Private Netdisk Card -->
+                <a href="https://pan.maoxijia.top" target="_blank" class="portal-card" id="portal-pan-card" style="border-color: var(--neon-green);">
                     <div>
                         <div class="card-top">
-                            <div class="portal-icon" style="color: var(--text-muted); border-color: rgba(255,255,255,0.05);">
-                                🔧
+                            <div class="portal-icon" style="color: var(--neon-green); border-color: rgba(100, 255, 218, 0.2);">
+                                💾
                             </div>
+                            <div class="arrow-icon" style="color: var(--neon-green);">↗</div>
                         </div>
-                        <h3 class="card-title" style="color: var(--text-muted);">光学仿真与实验计算 portal</h3>
-                        <p class="card-desc" style="color: var(--text-muted);">规划中：基于 WebGL/Canvas 的光学反射与透射模拟，MATLAB 仿真交互面板。</p>
+                        <h3 class="card-title">云端私有网盘</h3>
+                        <p class="card-desc">完全自建的私有网盘终端。不限速、全天候安全存储课件、MATLAB 算法及 Zemax 光学设计等实验数据。</p>
                     </div>
-                </div>
+                    
+                    <div style="margin-top: 18px; border-top: 1px dashed rgba(100, 255, 218, 0.1); padding-top: 14px; font-size: 13px; color: var(--text-gray); line-height: 1.5; display: flex; justify-content: space-between; align-items: center;">
+                        <span>网盘状态：<b style="color: var(--neon-green)">安全加密</b></span>
+                        <span style="font-family: var(--font-mono); font-size: 11px;">pan.maoxijia.top</span>
+                    </div>
+                </a>
 
                 <!-- Placeholder card 2 -->
                 <div class="portal-card" style="opacity: 0.5; border-style: dashed; cursor: not-allowed; min-height: 190px;">
