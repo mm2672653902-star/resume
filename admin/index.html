@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毛希嘉 - 个人简历控制台</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-black: #020204;
+            --bg-darker: #06060c;
+            --bg-card: #0c0c14;
+            --bg-input: #121220;
+            --border-color: #1a1a2f;
+            --border-glow-cyan: #00e5ff;
+            --border-glow-green: #64ffda;
+            --text-primary: #ffffff;
+            --text-secondary: #9ba0c0;
+            --text-muted: #5e647c;
+            --neon-blue: #00e5ff;
+            --neon-green: #64ffda;
+            --neon-red: #ff3366;
+            --font-main: 'Outfit', 'Noto Sans SC', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --glow-shadow-cyan: 0 0 10px rgba(0, 229, 255, 0.25), 0 0 2px rgba(0, 229, 255, 0.4);
+            --glow-shadow-green: 0 0 10px rgba(100, 255, 218, 0.25), 0 0 2px rgba(100, 255, 218, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-black);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-blue);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            background: #08080f;
+            border: 1px solid var(--border-color);
+            padding: 16px 24px;
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success { border-left: 4px solid var(--neon-green); }
+        .toast.error { border-left: 4px solid var(--neon-red); }
+        .toast.info { border-left: 4px solid var(--neon-blue); }
+
+        /* Login Layout */
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        /* Common Elements */
+        .neon-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            font-family: var(--font-main);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-cyan {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+        .btn-cyan:hover {
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: var(--glow-shadow-cyan);
+            transform: translateY(-1px);
+        }
+        .btn-green {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+        .btn-green:hover {
+            background: rgba(100, 255, 218, 0.05);
+            box-shadow: var(--glow-shadow-green);
+            transform: translateY(-1px);
+        }
+        .btn-red {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+        }
+        .btn-red:hover {
+            background: rgba(255, 51, 102, 0.05);
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group.horizontal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-group label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-family: var(--font-main);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 6px rgba(0, 229, 255, 0.15);
+        }
+
+        /* App Panel Layout (Main Interface) */
+        #app-panel {
+            display: none;
+            padding: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .brand-logo {
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+        .brand-badge {
+            font-size: 10px;
+            font-weight: 600;
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--neon-green);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        /* Edit Form Design */
+        .settings-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        .settings-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            padding-bottom: 10px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .spinner {
+            border: 2px solid rgba(255,255,255,0.05);
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Login Screen -->
+    <section id="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>PORTAL OS ADMIN</h1>
+                <p>简历与导航控制中心 · 极客登录终端</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">管理账号</label>
+                    <input type="text" id="username" class="form-input" required placeholder="输入账号">
+                </div>
+                <div class="form-group">
+                    <label for="password">验证密码</label>
+                    <input type="password" id="password" class="form-input" required placeholder="输入密码">
+                </div>
+                <button type="submit" class="neon-btn btn-cyan" style="width: 100%; margin-top: 10px;">
+                    <span>解密登录</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <section id="app-panel">
+        <header class="panel-header">
+            <div class="brand-logo">
+                MAO_RESUME_DEC<span class="brand-badge">Control Console</span>
+            </div>
+            <button class="neon-btn btn-red" onclick="handleLogout()" style="padding: 6px 14px; font-size: 13px;">
+                退出后台
+            </button>
+        </header>
+
+        <main>
+            <form id="resume-form" onsubmit="saveResumeData(event)">
+                <!-- Basic Info -->
+                <div class="settings-card">
+                    <h3>👤 基础个人信息</h3>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label for="input-name">姓名</label>
+                            <input type="text" id="input-name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-birthday">出生日期</label>
+                            <input type="text" id="input-birthday" class="form-input" placeholder="例如: 2006.11.16" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-origin">籍贯</label>
+                            <input type="text" id="input-origin" class="form-input" placeholder="例如: 河南省濮阳市" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-enrollment">入学年份</label>
+                            <input type="text" id="input-enrollment" class="form-input" placeholder="例如: 2024年9月" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="settings-card">
+                    <h3>🎓 教育背景</h3>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label for="input-university">毕业/在读学校</label>
+                            <input type="text" id="input-university" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-degree">学历层级</label>
+                            <input type="text" id="input-degree" class="form-input" placeholder="例如: 本科 / 硕士" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="input-major">就读专业</label>
+                        <input type="text" id="input-major" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- English & Slogans -->
+                <div class="settings-card">
+                    <h3>✏️ 外语水平与个性签名</h3>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label for="input-cet4">英语四级状态</label>
+                            <input type="text" id="input-cet4" class="form-input" placeholder="例如: 已过" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-cet6">英语六级分数</label>
+                            <input type="text" id="input-cet6" class="form-input" placeholder="例如: 465分" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="input-slogan">主座右铭 (Slogan)</label>
+                        <input type="text" id="input-slogan" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-subslogan">副座右铭 (Sub-slogan)</label>
+                        <input type="text" id="input-subslogan" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="settings-card">
+                    <h3>⚡ 专业技能 (每行一条)</h3>
+                    <div class="form-group">
+                        <label for="input-skills">技能列表</label>
+                        <textarea id="input-skills" class="form-input" rows="5" style="font-family: var(--font-mono); resize: vertical; line-height: 1.6;" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Contact & Links -->
+                <div class="settings-card">
+                    <h3>🔗 联系渠道与外部链接</h3>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label for="input-email">联系邮箱</label>
+                            <input type="email" id="input-email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-github">GitHub 地址</label>
+                            <input type="url" id="input-github" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-blog">博客二级域名</label>
+                            <input type="url" id="input-blog" class="form-input" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Background Images -->
+                <div class="settings-card">
+                    <h3>🖼️ 巍峨雪山背景图库 (每行一个图片 URL)</h3>
+                    <div class="form-group">
+                        <label for="input-backgrounds">背景图片 URL 列表</label>
+                        <textarea id="input-backgrounds" class="form-input" rows="5" style="font-family: var(--font-mono); resize: vertical; line-height: 1.6;" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div style="display: flex; justify-content: flex-end; gap: 16px; margin-bottom: 50px;">
+                    <button type="submit" class="neon-btn btn-green" id="submit-btn" style="padding: 14px 40px; font-size: 15px;">
+                        保存修改并推送
+                    </button>
+                </div>
+            </form>
+        </main>
+    </section>
+
+    <!-- Script Block -->
+    <script>
+        // Encrypted credentials package (decrypted using Web Crypto API PBKDF2 + AES-GCM)
+        const CRYPTO_CONFIG = {
+            salt: "85b2cd5f7ef3cd96682bf093a7aa8909",
+            iv: "84f5fee5103de2667c39e9ba",
+            ciphertext: "6eee9a4adeebbf50fa0c68e4a26e99fa82020965063747c3aaa62d8efcbcd514931e36a80bd013a3",
+            authTag: "684642e169e38a354d23b1fae2251897"
+        };
+
+        const REPO_OWNER = "mm2672653902-star";
+        const REPO_NAME = "resume"; // Target repository for the resume portal
+        const BRANCH = "main";
+
+        // Global State variables
+        let gitHubToken = "";
+        let currentDataSha = "";
+        let originalResumeData = null;
+
+        // Custom Helper: Hex string to Uint8Array
+        function hexToBytes(hex) {
+            const arr = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = parseInt(hex.substr(i * 2, 2), 16);
+            }
+            return arr;
+        }
+
+        // Custom UTF-8 Safe Base64 Helper
+        function utf8_to_b64(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
+        }
+
+        function b64_to_utf8(str) {
+            return decodeURIComponent(atob(str).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        }
+
+        // Decrypt Token with User Inputs
+        async function decryptToken(username, password) {
+            const pin = `${username}:${password}`;
+            const enc = new TextEncoder();
+            
+            try {
+                const keyMaterial = await window.crypto.subtle.importKey(
+                    "raw",
+                    enc.encode(pin),
+                    { name: "PBKDF2" },
+                    false,
+                    ["deriveBits", "deriveKey"]
+                );
+                
+                const key = await window.crypto.subtle.deriveKey(
+                    {
+                        name: "PBKDF2",
+                        salt: hexToBytes(CRYPTO_CONFIG.salt),
+                        iterations: 100000,
+                        hash: "SHA-256"
+                    },
+                    keyMaterial,
+                    { name: "AES-GCM", length: 256 },
+                    false,
+                    ["decrypt"]
+                );
+
+                const fullCiphertext = hexToBytes(CRYPTO_CONFIG.ciphertext + CRYPTO_CONFIG.authTag);
+                const decryptedBuffer = await window.crypto.subtle.decrypt(
+                    {
+                        name: "AES-GCM",
+                        iv: hexToBytes(CRYPTO_CONFIG.iv)
+                    },
+                    key,
+                    fullCiphertext
+                );
+
+                return new TextDecoder().decode(decryptedBuffer);
+            } catch (error) {
+                console.error("Decryption failed:", error);
+                return null;
+            }
+        }
+
+        // Alert messages using dynamic toasts
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = "ℹ️";
+            if (type === "success") icon = "✅";
+            if (type === "error") icon = "❌";
+
+            toast.innerHTML = `<span>${icon}</span><div>${message}</div>`;
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Remove after 3.5s
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Check if token exists in session
+        window.addEventListener('DOMContentLoaded', async () => {
+            const cachedToken = sessionStorage.getItem('MAO_RESUME_TOKEN');
+            if (cachedToken) {
+                gitHubToken = cachedToken;
+                showPanel();
+            }
+        });
+
+        // Login Submission
+        async function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value;
+            
+            showToast("解密验证中...", "info");
+            
+            const decryptedToken = await decryptToken(user, pass);
+            if (decryptedToken && decryptedToken.startsWith("ghp_")) {
+                gitHubToken = decryptedToken;
+                sessionStorage.setItem('MAO_RESUME_TOKEN', gitHubToken);
+                showToast("解密登录成功！进入控制台", "success");
+                showPanel();
+            } else {
+                showToast("管理员账号或密码验证失败，解密失败！", "error");
+            }
+        }
+
+        function showPanel() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-panel').style.display = 'block';
+            fetchResumeData();
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('MAO_RESUME_TOKEN');
+            gitHubToken = "";
+            location.reload();
+        }
+
+        // GitHub API HTTP Wrapper
+        async function githubAPIRequest(endpoint, options = {}) {
+            const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}${endpoint}`;
+            const headers = {
+                'Authorization': `token ${gitHubToken}`,
+                'Accept': 'application/vnd.github.v3+json',
+                ...options.headers
+            };
+
+            const response = await fetch(url, { ...options, headers });
+            
+            if (response.status === 401) {
+                showToast("凭证验证失败，请重新登录", "error");
+                handleLogout();
+                throw new Error("Unauthorized");
+            }
+            
+            if (!response.ok) {
+                const errMsg = await response.text();
+                throw new Error(errMsg || `API error ${response.status}`);
+            }
+
+            return response.json();
+        }
+
+        // Fetch info.json from GitHub
+        async function fetchResumeData() {
+            showToast("拉取个人配置中...", "info");
+            try {
+                const response = await githubAPIRequest(`/contents/info.json?ref=${BRANCH}`);
+                const rawContent = b64_to_utf8(response.content);
+                originalResumeData = JSON.parse(rawContent);
+                currentDataSha = response.sha;
+                
+                populateForm(originalResumeData);
+                showToast("同步成功，已加载最新配置", "success");
+            } catch (err) {
+                console.error("Fetch failed, reading local info.json as fallback:", err);
+                try {
+                    const fallbackRes = await fetch('../info.json');
+                    if (fallbackRes.ok) {
+                        const fallbackJson = await fallbackRes.json();
+                        populateForm(fallbackJson);
+                        showToast("已加载本地缓存配置（由于仓库尚未初始化）", "info");
+                    }
+                } catch (localErr) {
+                    showToast("拉取配置失败，请确认仓库是否已发布", "error");
+                }
+            }
+        }
+
+        // Populate Form Fields
+        function populateForm(data) {
+            document.getElementById('input-name').value = data.name;
+            document.getElementById('input-birthday').value = data.birthday;
+            document.getElementById('input-origin').value = data.origin;
+            document.getElementById('input-enrollment').value = data.education.enrollment;
+            document.getElementById('input-university').value = data.education.university;
+            document.getElementById('input-degree').value = data.education.degree;
+            document.getElementById('input-major').value = data.education.major;
+            document.getElementById('input-cet4').value = data.english.cet4;
+            document.getElementById('input-cet6').value = data.english.cet6;
+            document.getElementById('input-slogan').value = data.slogan;
+            document.getElementById('input-subslogan').value = data.sub_slogan;
+            document.getElementById('input-email').value = data.contact.email;
+            document.getElementById('input-github').value = data.contact.github;
+            document.getElementById('input-blog').value = data.contact.blog;
+            
+            // Textareas (arrays)
+            document.getElementById('input-skills').value = data.skills.join('\n');
+            document.getElementById('input-backgrounds').value = data.backgrounds.join('\n');
+        }
+
+        // Submit Save Resume Data
+        async function saveResumeData(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> 正在保存并向云端推送...';
+            
+            // Build JSON object
+            const data = {
+                name: document.getElementById('input-name').value.trim(),
+                birthday: document.getElementById('input-birthday').value.trim(),
+                education: {
+                    degree: document.getElementById('input-degree').value.trim(),
+                    university: document.getElementById('input-university').value.trim(),
+                    major: document.getElementById('input-major').value.trim(),
+                    enrollment: document.getElementById('input-enrollment').value.trim()
+                },
+                origin: document.getElementById('input-origin').value.trim(),
+                english: {
+                    cet4: document.getElementById('input-cet4').value.trim(),
+                    cet6: document.getElementById('input-cet6').value.trim()
+                },
+                skills: document.getElementById('input-skills').value.split('\n').map(s => s.trim()).filter(s => s.length > 0),
+                contact: {
+                    email: document.getElementById('input-email').value.trim(),
+                    github: document.getElementById('input-github').value.trim(),
+                    blog: document.getElementById('input-blog').value.trim()
+                },
+                slogan: document.getElementById('input-slogan').value.trim(),
+                sub_slogan: document.getElementById('input-subslogan').value.trim(),
+                backgrounds: document.getElementById('input-backgrounds').value.split('\n').map(s => s.trim()).filter(s => s.length > 0)
+            };
+
+            const contentStr = JSON.stringify(data, null, 2);
+            const base64Content = utf8_to_b64(contentStr);
+
+            const payload = {
+                message: "update resume profile info.json",
+                content: base64Content,
+                branch: BRANCH
+            };
+            if (currentDataSha) {
+                payload.sha = currentDataSha;
+            }
+
+            try {
+                const res = await githubAPIRequest(`/contents/info.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload)
+                });
+                currentDataSha = res.content.sha;
+                showToast("个人配置已成功推送并同步到云端！", "success");
+            } catch (err) {
+                console.error("Save failed:", err);
+                showToast("保存配置至云端失败，请确认仓库及分支配置是否正确", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = '保存修改并推送';
+            }
+        }
+    </script>
+</body>
+</html>

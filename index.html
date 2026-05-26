@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毛希嘉 - 个人简历 & 导航空间</title>
+    <meta name="description" content="毛希嘉的个人简历与子域名导航页。长春理工大学光电信息科学与工程专业，熟练掌握C语言，自学MATLAB与Zemax，致力于光电与人工智能的跨界应用。">
+    <!-- Google Fonts Outfit & Noto Sans SC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Noto+Sans+SC:wght@300;400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Background Components -->
+    <div class="bg-image-layer" id="bg-image"></div>
+    <div class="bg-overlay-layer"></div>
+    <div class="bg-grid-layer"></div>
+    <canvas id="star-canvas"></canvas>
+
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+        <div class="nav-brand">
+            MAO<span>_PORTAL_OS</span>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="nav-menu">
+            <li class="nav-item"><a href="#" class="active">主页</a></li>
+            <li class="nav-item"><a href="#education-section">教育经历</a></li>
+            <li class="nav-item"><a href="#skills-section">技能</a></li>
+            <li class="nav-item"><a href="#portal-section">网站导航</a></li>
+            <li class="nav-item"><a id="nav-blog-link" href="https://blog.maoxijia.top" target="_blank">博客</a></li>
+            <li class="nav-item"><a id="nav-github-link" href="https://github.com/mm2672653902-star" target="_blank">GitHub</a></li>
+            <a href="admin/index.html" class="nav-btn-admin">后台管理</a>
+        </nav>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+        
+        <!-- Left Sidebar: Profile Card -->
+        <aside class="sidebar-card">
+            <div class="avatar-container">
+                <img src="img/avatar.jpg" alt="毛希嘉" class="avatar-img" id="avatar-img-node">
+                <div class="avatar-glitch-overlay"></div>
+            </div>
+            
+            <h1 class="profile-name" id="name-display">毛希嘉</h1>
+            <p class="profile-title" id="title-display">Optoelectronics & AI Explorer</p>
+            
+            <div class="profile-divider"></div>
+            
+            <div class="info-details">
+                <div class="info-item">
+                    <span class="info-label">院校</span>
+                    <span class="info-val" id="university-display">长春理工大学</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">专业</span>
+                    <span class="info-val" id="major-display">光电信息科学与工程（工）</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">年级</span>
+                    <span class="info-val" id="enrollment-display">2024级</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">籍贯</span>
+                    <span class="info-val" id="origin-display">河南省濮阳市</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">生日</span>
+                    <span class="info-val" id="birthday-display">2006.11.16</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">外语水平</span>
+                    <span class="info-val" id="english-display">四级已过 / 六级 465</span>
+                </div>
+            </div>
+            
+            <a href="mailto:mm2672653902@gmail.com" class="nav-btn-admin" style="width: 100%; text-align: center; border-color: var(--neon-cyan); color: var(--neon-cyan); margin-bottom: 24px; padding: 12px;" id="contact-btn-display">
+                联系我
+            </a>
+            
+            <div class="sidebar-socials">
+                <a href="mailto:mm2672653902@gmail.com" class="social-icon" id="social-email" title="发送邮件">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+                <a href="https://github.com/mm2672653902-star" class="social-icon" id="social-github" target="_blank" title="GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/></svg>
+                </a>
+                <a href="https://blog.maoxijia.top" class="social-icon" id="social-blog" target="_blank" title="技术博客">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Right Content Area -->
+        <div class="content-column">
+            
+            <!-- Hero Slogan -->
+            <section class="hero-section">
+                <div class="hero-slogan" id="hero-slogan-display">Action speaks louder than words.</div>
+                <div class="hero-subslogan" id="hero-subslogan-display">光电信息科学 & AI技术的交融探索</div>
+            </section>
+            
+            <!-- Tech Details Panels -->
+            <div class="grid-two-columns" id="education-section">
+                <!-- Education Background Panel -->
+                <div class="tech-panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🎓</span>
+                        <h2 class="panel-title">教育履历</h2>
+                    </div>
+                    <div class="skills-list">
+                        <div class="info-item">
+                            <span class="info-label">本科院校</span>
+                            <span class="info-val" style="font-weight: 700; color: var(--text-white);">长春理工大学 (2024.09 - 至今)</span>
+                        </div>
+                        <div class="info-item" style="margin-top: 8px;">
+                            <span class="info-label">就读专业</span>
+                            <span class="info-val">光电信息科学与工程（工）（中外合作办学）</span>
+                        </div>
+                        <div class="info-item" style="margin-top: 8px;">
+                            <span class="info-label">专业介绍</span>
+                            <span class="info-val" style="font-size: 13px; color: var(--text-gray);">
+                                融合光学工程、电子信息、计算机技术等跨学科领域。结合国外优质教育资源，重点培养具备现代光电仪器研发、光学工程技术、计算机应用及算法开发能力的国际化工科人才。
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Panel -->
+                <div class="tech-panel" id="skills-section">
+                    <div class="panel-header">
+                        <span class="panel-icon">⚡</span>
+                        <h2 class="panel-title">技术栈 & AI工具</h2>
+                    </div>
+                    <div class="skills-list" id="skills-list-container">
+                        <!-- Will be dynamically populated from info.json -->
+                        <div class="skill-tag-item">熟练掌握C语言</div>
+                        <div class="skill-tag-item">自学MATLAB和Zemax</div>
+                        <div class="skill-tag-item">熟练运用Gemini、ChatGPT、antigravity等AI工具</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portal Grid Section -->
+            <h2 class="profile-name" style="font-size: 18px; letter-spacing: 2px; margin: 10px 0 -10px 0; text-transform: uppercase; color: var(--text-white);" id="portal-section">网站导航与子域名</h2>
+            
+            <section class="portal-grid">
+                <!-- Blog Widget -->
+                <a href="https://blog.maoxijia.top" target="_blank" class="portal-card" id="portal-blog-card">
+                    <div>
+                        <div class="card-top">
+                            <div class="portal-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                            </div>
+                            <div class="arrow-icon">↗</div>
+                        </div>
+                        <h3 class="card-title">我的个人技术博客</h3>
+                        <p class="card-desc">记录光电信息工程学习过程，分享AI辅助编程与网络技术探索心得。</p>
+                    </div>
+                    
+                    <!-- Dynamic updates area -->
+                    <div class="blog-feed-container">
+                        <div class="feed-header">
+                            <span>博客最新动态</span>
+                            <div class="feed-indicator">
+                                <span class="feed-dot"></span>
+                                <span>实时更新</span>
+                            </div>
+                        </div>
+                        <div class="feed-list" id="blog-feed-list">
+                            <div class="feed-loading">
+                                <span class="feed-dot" style="animation-duration: 0.8s;"></span>
+                                正在获取文章目录...
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- GitHub Card -->
+                <a href="https://github.com/mm2672653902-star" target="_blank" class="portal-card github" id="portal-github-card">
+                    <div>
+                        <div class="card-top">
+                            <div class="portal-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/></svg>
+                            </div>
+                            <div class="arrow-icon">↗</div>
+                        </div>
+                        <h3 class="card-title">GitHub 开源工坊</h3>
+                        <p class="card-desc">探索各类开发项目与课外实践。包括课程代码、开源小工具及网络部署配置方案。</p>
+                    </div>
+                    
+                    <div style="margin-top: 18px; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 14px; font-size: 13px; color: var(--text-gray); line-height: 1.5;">
+                        在 GitHub 上关注我以获取最新开发仓库及前端应用发布。
+                    </div>
+                </a>
+
+                <!-- Placeholder card 1 -->
+                <div class="portal-card" style="opacity: 0.5; border-style: dashed; cursor: not-allowed; min-height: 190px;">
+                    <div>
+                        <div class="card-top">
+                            <div class="portal-icon" style="color: var(--text-muted); border-color: rgba(255,255,255,0.05);">
+                                🔧
+                            </div>
+                        </div>
+                        <h3 class="card-title" style="color: var(--text-muted);">光学仿真与实验计算 portal</h3>
+                        <p class="card-desc" style="color: var(--text-muted);">规划中：基于 WebGL/Canvas 的光学反射与透射模拟，MATLAB 仿真交互面板。</p>
+                    </div>
+                </div>
+
+                <!-- Placeholder card 2 -->
+                <div class="portal-card" style="opacity: 0.5; border-style: dashed; cursor: not-allowed; min-height: 190px;">
+                    <div>
+                        <div class="card-top">
+                            <div class="portal-icon" style="color: var(--text-muted); border-color: rgba(255,255,255,0.05);">
+                                🤖
+                            </div>
+                        </div>
+                        <h3 class="card-title" style="color: var(--text-muted);">AI 实验沙盒 portal</h3>
+                        <p class="card-desc" style="color: var(--text-muted);">规划中：嵌入大语言模型（Gemini/ChatGPT）接口的个人助理工具，自动化网页代理终端。</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-left">
+            <span>&copy; 2026 毛希嘉 (Mao). All Rights Reserved.</span>
+            <span>&bull;</span>
+            <a href="admin/index.html">管理后台</a>
+        </div>
+        <div class="footer-right">
+            <span>OS_STATUS: <b style="color: var(--neon-green)">ONLINE</b></span>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
