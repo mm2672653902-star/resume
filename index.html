@@ -36,6 +36,7 @@
             <li class="nav-item"><a href="#skills-section">技能</a></li>
             <li class="nav-item"><a href="#portal-section">网站导航</a></li>
             <li class="nav-item"><a id="nav-pan-link" href="https://pan.maoxijia.top" target="_blank">网盘</a></li>
+            <li class="nav-item"><a id="nav-share-link" href="https://share.maoxijia.top" target="_blank">剪贴板</a></li>
             <li class="nav-item"><a id="nav-blog-link" href="https://blog.maoxijia.top" target="_blank">博客</a></li>
             <li class="nav-item"><a id="nav-github-link" href="https://github.com/mm2672653902-star" target="_blank">GitHub</a></li>
             <a href="admin/index.html" class="nav-btn-admin">后台管理</a>
@@ -223,18 +224,24 @@
                     </div>
                 </a>
 
-                <!-- Placeholder card 2 -->
-                <div class="portal-card" style="opacity: 0.5; border-style: dashed; cursor: not-allowed; min-height: 190px;">
+                <!-- Share Clipboard Card -->
+                <a href="https://share.maoxijia.top" target="_blank" class="portal-card" id="portal-share-card" style="border-color: var(--neon-cyan);">
                     <div>
                         <div class="card-top">
-                            <div class="portal-icon" style="color: var(--text-muted); border-color: rgba(255,255,255,0.05);">
-                                🤖
+                            <div class="portal-icon" style="color: var(--neon-cyan); border-color: rgba(0, 229, 255, 0.2);">
+                                📋
                             </div>
+                            <div class="arrow-icon" style="color: var(--neon-cyan);">↗</div>
                         </div>
-                        <h3 class="card-title" style="color: var(--text-muted);">AI 实验沙盒 portal</h3>
-                        <p class="card-desc" style="color: var(--text-muted);">规划中：嵌入大语言模型（Gemini/ChatGPT）接口的个人助理工具，自动化网页代理终端。</p>
+                        <h3 class="card-title">极客中转剪贴板</h3>
+                        <p class="card-desc">安全、即用即走的跨设备云端剪贴中转板。支持粘贴大段代码、文本，自动生成提取短链、扫码二维码以及阅后即焚。</p>
                     </div>
-                </div>
+                    
+                    <div style="margin-top: 18px; border-top: 1px dashed rgba(0, 229, 255, 0.1); padding-top: 14px; font-size: 13px; color: var(--text-gray); line-height: 1.5; display: flex; justify-content: space-between; align-items: center;">
+                        <span>系统状态：<b style="color: var(--neon-cyan)">边缘加速</b></span>
+                        <span style="font-family: var(--font-mono); font-size: 11px;">share.maoxijia.top</span>
+                    </div>
+                </a>
             </section>
 
         </div>
